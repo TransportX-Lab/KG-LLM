@@ -1,3 +1,4 @@
+# 启动 FastAPI 应用程序，位于7860端口
 from endpoints import router as endpoints_router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -27,5 +28,4 @@ app = create_app()
 
 if __name__ == "__main__":
     import uvicorn
-
     uvicorn.run(app, host="0.0.0.0", port=7860)

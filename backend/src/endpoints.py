@@ -1,7 +1,5 @@
-# 路由处理
-
+# 处理FastAPI路由的代码，其中包括了对Neo4j数据库的连接和一个用于预测的LLM智能体
 import logging
-
 from agent import GraphAgent
 from env import getEnv
 from database import Neo4jDatabase

@@ -1,3 +1,4 @@
+# 用于连接Neo4j数据库的类Neo4jDatabase，包括一个简单的查询示例
 from typing import List, Optional, Dict
 from neo4j import GraphDatabase
 from logger import logger

@@ -1,3 +1,4 @@
+# 一个GraphAgent类，用于初始化代理并运行相关工具，包括在交通知识图谱中搜索信息的Cypher工具
 from langchain.agents.agent import AgentExecutor
 from langchain.agents.tools import Tool
 from langchain.chat_models import ChatOpenAI
@@ -39,8 +40,7 @@ class GraphAgent(AgentExecutor):
                 name="Cypher search",
                 func=cypher_tool.run,
                 description="""
-                利用此工具在股票、高管数据库中搜索信息，该数据库专门用于回答与股票和高管相关的问题。
-                这个专用的工具提供了简化的搜索功能，可帮助您轻松找到所需的股票和高管信息。
+                利用此工具在交通知识图谱中搜索信息，该数据库专门用于回答与交通相关的问题。
                 输入应该是一个完整的问题。
                 """,
             )

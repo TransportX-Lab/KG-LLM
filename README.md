@@ -8,7 +8,7 @@
 pip install -r requirements.txt
 ```
 
-2. 完成环境配置，设置node4j数据库等信息，提供.env的实例，可以照此填写
+2. 完成环境配置，设置node4j数据库等信息，在根目录下新建.env文件，可以照此填写
 
 ```jsx
 OPENAI_KEY=sk-XXXXXXXXXXXXXXXXXXX
@@ -24,10 +24,9 @@ MODEL_NAME=gpt-3.5-turbo
 python3 main.py
 ```
 
-# 二、图谱相关
+# 二、图谱相关（<font color="red">若有部署好的图谱，可跳过此步，在环境变量中配置neo4j的url、账号、密码即可</font>）
 
 ### 图谱下载与启动
-
 1. 可以选择本地部署neo4j数据库，或使用官方的云端数据库。本项目使用本地部署的neo4j 4.2.26版本
 2. 首先在本机安装openjdk11版本
 
