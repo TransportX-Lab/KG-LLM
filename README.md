@@ -85,3 +85,5 @@ neo4j-admin load --from=/home/aowang/history-knowledge-graph-neo4j.dump --databa
 ```
 2. 进入[http://0.0.0.0:7860/](http://0.0.0.0:7860/)查看后端响应情况
 3. 进入[http://localhost:7474](http://localhost:7474/)查看neo4j数据库情况
+
+**感谢https://github.com/ongdb-contrib/langchain2ongdb的优秀工作！！**
