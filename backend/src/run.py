@@ -1,3 +1,4 @@
+# 该函数 get_result_and_thought_using_graph，返回结果和思考内容
 import contextlib
 import io
 

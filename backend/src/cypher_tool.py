@@ -1,4 +1,4 @@
-# 示例生成查询的语句
+# 用于生成Cypher查询语句的工具，通过示例Cypher查询生成对应的查询语句
 from env import getEnv
 from database import Neo4jDatabase
 from pydantic import BaseModel, Extra
