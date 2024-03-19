@@ -26,8 +26,10 @@ def get_load(message: str = Query(...)):
     try:
         agent_graph = GraphAgent.initialize(
             graph=graph, model_name=model_name)   
-        print(neo4j_host)
+        # print('-------------------',message)
+        # message = '兰亭序的演唱者是谁'
         return get_result_and_thought_using_graph(agent_graph, message)
+        # return example_output
     except Exception as e:
         # Log stack trace
         logger.exception(e)
