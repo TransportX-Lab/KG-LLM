@@ -5,9 +5,9 @@ from logger import logger
 
 
 class Neo4jDatabase:
-    def __init__(self, host: str = "neo4j://localhost:7687",
+    def __init__(self, host: str = "neo4j://localhost:7474",
                  user: str = "neo4j",
-                 password: str = "aowang"):
+                 password: str = "404404404"):
         """Initialize the movie database"""
         self.driver = GraphDatabase.driver(host, auth=(user, password))
         print('driver sucess'+host)
@@ -26,10 +26,11 @@ class Neo4jDatabase:
 
 if __name__ == "__main__":
     database = Neo4jDatabase(host="bolt://localhost:7687",
-                             user="ongdb", password="123456")
+                             user="neo4j", password="404404404")
 
     a = database.query("""
-    MATCH (n) RETURN {count: count(*)} AS count
+    MATCH (n) 
+    RETURN count(*) AS count
     """)
 
     print(a)

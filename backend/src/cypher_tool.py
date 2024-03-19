@@ -15,18 +15,19 @@ from typing import Dict, List, Any
 
 from logger import logger
 
-with open('examples.txt', 'r') as file:
-    examples = file.read()
+with open('examples.txt', 'rb') as file:
+    examples = file.read().decode('utf-8', errors='ignore')
 
 
 SYSTEM_TEMPLATE = """
 您是一名助手，能够根据示例Cypher查询生成Cypher查询。
 示例Cypher查询是：\n""" + examples + """\n
 不要回复除Cypher查询以外的任何解释或任何其他信息。
-您永远不要为你的不准确回复感到抱歉，并严格根据提供的Cypher示例生成Cypher语句。
+请严格根据提供的Cypher示例生成Cypher语句。
+请严格遵守提供的Cypher示例的格式
+在Cypher语句中不要添加'''符号
 不要提供任何无法从密码示例中推断出的Cypher语句。
 """
-
 SYSTEM_CYPHER_PROMPT = SystemMessagePromptTemplate.from_template(SYSTEM_TEMPLATE)
 
 HUMAN_TEMPLATE = "{question}"
@@ -71,11 +72,14 @@ class LLMCypherGraphChain(Chain, BaseModel):
         chat_prompt = ChatPromptTemplate.from_messages(
             [self.system_prompt] + inputs['chat_history'] + [self.human_prompt]
         )
+        # print(chat_prompt)
         cypher_executor = LLMChain(
             prompt=chat_prompt, llm=self.llm, callback_manager=self.callback_manager
         )
+        # print(cypher_executor)
         cypher_statement = cypher_executor.predict(
             question=inputs[self.input_key], stop=["Output:"])
+        print(cypher_statement)
         self.callback_manager.on_text(
             "Generated Cypher statement:", color="green", end="\n", verbose=self.verbose
         )
@@ -85,18 +89,20 @@ class LLMCypherGraphChain(Chain, BaseModel):
         )
 
         print(cypher_statement)
+        print('------------------------')
         # If Cypher statement was not generated due to lack of context
 
         if not "MATCH" in cypher_statement:
-            return {'answer': 'Missing context to create a Cypher statement'}
+            return {'answer': '无法创建查询语句'}
         
         try:
             context = self.graph.query(cypher_statement)
+            print ('answer', context)
             return {'answer': context}
 
         except: 
             logger.debug('Cypher generator context:')
-            return {'answer': 'No match Cypher statement'}
+            return {'answer': '缺少符合问题的查询语句'}
 
 
 
@@ -105,21 +111,21 @@ if __name__ == "__main__":
 
     llm = ChatOpenAI(
         openai_api_key=getEnv('OPENAI_KEY'),
-        temperature=1)
+        temperature=1,
+        request_timeout=600)
     
-    database = Neo4jDatabase(host="neo4j://localhost:7687",
-                             user="neo4j", password="aowang")
+    database = Neo4jDatabase(host="bolt://localhost:7687",
+                             user="neo4j", password="404404404")
 
     memory = ConversationBufferMemory(
         memory_key="chat_history", return_messages=True)
     readonlymemory = ReadOnlySharedMemory(memory=memory)
 
-
-    print('query scuess')
     chain = LLMCypherGraphChain(llm=llm, verbose=True, graph=database, memory=readonlymemory)
+    print('chain scuess')
 
     output = chain.run(
-        "演唱兰亭序的歌手是"
+        "会议有哪些"
     )
 
     print(output)
